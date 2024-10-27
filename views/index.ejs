@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="ar">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Articles</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f2f5;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            min-height: 100vh;
+            margin: 0;
+            direction: rtl;
+        }
+        .no{
+            color: #c5c5c5;
+        }
+        .container {
+            width: 100%;
+            max-width: 600px;
+            background-color: #ffffff;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            margin-top: 40px;
+        }
+
+        h1 {
+            font-size: 24px;
+            color: #333;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .new-article-button {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px; /* هوامش أسفل الزر */
+        }
+
+        button {
+            padding: 10px 15px;
+            margin: 0 10px;
+            font-size: 16px;
+            color: #fff;
+            background-color: #007bff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .article {
+            margin-bottom: 40px; /* تغيير الهوامش إلى 40 بكسل */
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+        }
+
+        .article h2 {
+            font-size: 20px;
+            color: #333;
+            display: flex; /* استخدام flexbox لتوزيع المحتوى */
+            justify-content: space-between; /* توزيع المحتوى بشكل متساوي */
+            align-items: center; /* محاذاة العناصر في المنتصف عموديًا */
+        }
+
+        .article .date {
+            font-size: 14px;
+            color: #888;
+            margin-left: 15px; /* إضافة هامش إلى اليسار لتفريق بين العنوان والتاريخ */
+        }
+
+        .article p {
+            font-size: 16px;
+            color: #555;
+        }
+
+        .buttons {
+            margin-top: 10px;
+            display: flex;
+            justify-content: center; /* ضبط الأزرار في المنتصف */
+        }
+
+        button.edit {
+            background-color: #28a745;
+        }
+
+        button.view {
+            background-color: #1916b9;
+        }
+
+        button.delete {
+            background-color: #dc3545;
+        }
+
+        button:hover {
+            opacity: 0.9;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>المقالات</h1>
+        
+        <!-- زر نشر مقال جديد -->
+        <div class="new-article-button">
+            <form action="/user/add" method="get">
+                <button class="new-article">نشر مقال جديد</button>
+            </form>
+        </div>
+        <% if (arr.length === 0) { %>
+            <!-- في حالة عدم وجود مقالات -->
+            <h1 class="no">No Articles Upload</h1>
+        <% } else { %>
+            <% arr.forEach(item => { %>
+                <!-- عرض المقالة -->
+                <div class="article">
+                    <h2><%= item.addressOfArticle %><span class="date">تاريخ النشر: <%= moment(item.createdAt).format('L') %></span></h2>
+                    <div class="buttons">
+                        <form action="/user/view/<%= item._id %>" method="get">
+                            <button class="view">عرض المقال</button>
+                        </form>
+        
+                        <form action="/user/delete/<%= item._id %>?_method=DELETE" method="post">
+                            <button class="delete">حذف</button>
+                        </form>
+                    </div>
+                </div>
+            <% }) %>
+        <% } %>
+        
+    </div>
+</body>
+
+</html>
