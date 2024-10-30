@@ -12,7 +12,7 @@
 
         body {
             font-family: Arial, sans-serif;
-            background-color: #f0f2f5;
+            background-color: #f0f8ff;
             display: flex;
             justify-content: center;
             align-items: flex-start;
@@ -20,9 +20,11 @@
             margin: 0;
             direction: rtl;
         }
-        .no{
+
+        .no {
             color: #c5c5c5;
         }
+
         .container {
             width: 100%;
             max-width: 600px;
@@ -43,7 +45,8 @@
         .new-article-button {
             display: flex;
             justify-content: center;
-            margin-bottom: 20px; /* هوامش أسفل الزر */
+            margin-bottom: 20px;
+            /* هوامش أسفل الزر */
         }
 
         button {
@@ -59,7 +62,8 @@
         }
 
         .article {
-            margin-bottom: 40px; /* تغيير الهوامش إلى 40 بكسل */
+            margin-bottom: 40px;
+            /* تغيير الهوامش إلى 40 بكسل */
             padding: 15px;
             border: 1px solid #ddd;
             border-radius: 5px;
@@ -69,15 +73,19 @@
         .article h2 {
             font-size: 20px;
             color: #333;
-            display: flex; /* استخدام flexbox لتوزيع المحتوى */
-            justify-content: space-between; /* توزيع المحتوى بشكل متساوي */
-            align-items: center; /* محاذاة العناصر في المنتصف عموديًا */
+            display: flex;
+            /* استخدام flexbox لتوزيع المحتوى */
+            justify-content: space-between;
+            /* توزيع المحتوى بشكل متساوي */
+            align-items: center;
+            /* محاذاة العناصر في المنتصف عموديًا */
         }
 
         .article .date {
             font-size: 14px;
             color: #888;
-            margin-left: 15px; /* إضافة هامش إلى اليسار لتفريق بين العنوان والتاريخ */
+            margin-left: 15px;
+            /* إضافة هامش إلى اليسار لتفريق بين العنوان والتاريخ */
         }
 
         .article p {
@@ -88,7 +96,8 @@
         .buttons {
             margin-top: 10px;
             display: flex;
-            justify-content: center; /* ضبط الأزرار في المنتصف */
+            justify-content: center;
+            /* ضبط الأزرار في المنتصف */
         }
 
         button.edit {
@@ -106,40 +115,93 @@
         button:hover {
             opacity: 0.9;
         }
+
+        /* Header */
+        .header {
+            background-color: #ffffff;
+            color: #000000;
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            direction: rtl;
+            /* يضبط الاتجاه ليكون من اليمين لليسار */
+        }
+
+        .user-info {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+            align-items: center;
+        }
+
+        .user-name {
+            font-size: 18px;
+            margin-left: auto;
+            /* يدفع اسم المستخدم إلى الطرف الأيمن */
+        }
+
+        .signout-btn {
+            background-color: #e74c3c;
+            color: #fff;
+            border: none;
+            padding: 10px 15px;
+            cursor: pointer;
+            border-radius: 5px;
+            font-size: 1em;
+            transition: background-color 0.3s ease;
+            margin-right: auto;
+            /* يدفع زر تسجيل الخروج إلى الطرف الأيسر */
+        }
+
+        .signout-btn:hover {
+            background-color: #c0392b;
+        }
     </style>
 </head>
 
 <body>
     <div class="container">
+        <header class="header">
+            <div class="user-info">
+                <span class="user-name">مرحبا، <%= user.username %></span>
+                <form action="/signout" class="get">
+                    <button class="signout-btn">تسجيل الخروج</button>
+                </form>
+            </div>
+        </header>
         <h1>المقالات</h1>
-        
+
         <!-- زر نشر مقال جديد -->
         <div class="new-article-button">
             <form action="/user/add" method="get">
                 <button class="new-article">نشر مقال جديد</button>
             </form>
         </div>
-        <% if (arr.length === 0) { %>
+        <% if (arr.length===0) { %>
             <!-- في حالة عدم وجود مقالات -->
             <h1 class="no">No Articles Upload</h1>
-        <% } else { %>
-            <% arr.forEach(item => { %>
-                <!-- عرض المقالة -->
-                <div class="article">
-                    <h2><%= item.addressOfArticle %><span class="date">تاريخ النشر: <%= moment(item.createdAt).format('L') %></span></h2>
-                    <div class="buttons">
-                        <form action="/user/view/<%= item._id %>" method="get">
-                            <button class="view">عرض المقال</button>
-                        </form>
-        
-                        <form action="/user/delete/<%= item._id %>?_method=DELETE" method="post">
-                            <button class="delete">حذف</button>
-                        </form>
+            <% } else { %>
+                <% arr.forEach(item=> { %>
+                    <!-- عرض المقالة -->
+                    <div class="article">
+                        <h2>
+                            <%= item.addressOfArticle %><span class="date">تاريخ النشر: <%=
+                                        moment(item.createdAt).format('L') %></span>
+                        </h2>
+                        <div class="buttons">
+                            <form action="/user/view/<%= item._id %>" method="get">
+                                <button class="view">عرض المقال</button>
+                            </form>
+
+                            <form action="/user/delete/<%= item._id %>?_method=DELETE" method="post">
+                                <button class="delete">حذف</button>
+                            </form>
+                        </div>
                     </div>
-                </div>
-            <% }) %>
-        <% } %>
-        
+                    <% }) %>
+                        <% } %>
+
     </div>
 </body>
 
